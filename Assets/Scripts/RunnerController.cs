@@ -7,7 +7,7 @@ using UnityEngine;
 public class RunnerController : MonoBehaviour
 {
     [SerializeField] private float runSpeed = 4f;
-    [SerializeField] private GameObject soul;
+    [SerializeField] private GameObject soulOrb;
 
     private enum MovementSideEnum
     {
@@ -144,9 +144,9 @@ public class RunnerController : MonoBehaviour
     
     private void Respawn()
     {
-        var soulObjects = FindObjectsOfType<Soul>().Length;
+        var soulObjects = FindObjectsOfType<SoulOrb>().Length;
         if (soulObjects != 0) return;
-        Instantiate(soul, transform.localPosition, Quaternion.identity);
+        Instantiate(soulOrb, transform.localPosition, Quaternion.identity);
         FindObjectOfType<GameSession>().Respawn();
     }
     

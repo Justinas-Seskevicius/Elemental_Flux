@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Soul : MonoBehaviour
+public class SoulOrb : MonoBehaviour
 {
     private void Awake()
     {
-        int soulObjects = FindObjectsOfType<Soul>().Length;
+        int soulObjects = FindObjectsOfType<SoulOrb>().Length;
         if (soulObjects > 1)
         {
             Destroy(gameObject);

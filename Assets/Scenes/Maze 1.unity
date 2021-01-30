@@ -29465,6 +29465,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Runner
       objectReference: {fileID: 0}
+    - target: {fileID: 788538501116498106, guid: 2942c310ce97b45ce935bc2d1899c305,
+        type: 3}
+      propertyPath: soulOrb
+      value: 
+      objectReference: {fileID: 6394848878550978867, guid: d382cffcf859744f0857901e6d5a13d5,
+        type: 3}
     - target: {fileID: 788538501116498110, guid: 2942c310ce97b45ce935bc2d1899c305,
         type: 3}
       propertyPath: m_RootOrder
