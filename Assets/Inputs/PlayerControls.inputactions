@@ -28,6 +28,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Respawn",
+                    "type": "Button",
+                    "id": "960927e7-88f5-4b00-aa75-a60a71bfeb55",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -165,12 +173,12 @@
                 },
                 {
                     "name": "",
-                    "id": "b21ecf30-7b45-4d1f-b655-e8cc04241073",
+                    "id": "6c2f2caa-804c-438d-8e7a-28da22afc241",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Jump",
+                    "action": "Respawn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
