@@ -21,7 +21,16 @@ public class RunnerController : MonoBehaviour
 
     // State
     private MovementSideEnum _movementSide = MovementSideEnum.Down;
+    private bool _freezeMovementInput = false;
     
+    // Calculated ID int values for Animator
+    private static readonly int IdleBack = Animator.StringToHash("Idle Back");
+    private static readonly int IdleFront = Animator.StringToHash("Idle Front");
+    private static readonly int IdleSide = Animator.StringToHash("Idle Side");
+    private static readonly int WalkingSide = Animator.StringToHash("Walking Side");
+    private static readonly int WalkingFront = Animator.StringToHash("Walking Front");
+    private static readonly int WalkingBack = Animator.StringToHash("Walking Back");
+
     void Awake()
     {
         _controls = new PlayerControls();
@@ -48,12 +57,23 @@ public class RunnerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_freezeMovementInput) return;
         Move();
         FlipSprite();
     }
 
     private void Move()
     {
+        // In case you want to disable diagonal movement
+        //
+        // if (_move.x > Mathf.Epsilon || _move.x < 0)
+        // {
+        //     _rb.velocity = new Vector2(_move.x * runSpeed, 0f);
+        // }
+        // else
+        // {
+        //     _rb.velocity = new Vector2(0f, _move.y * runSpeed);
+        // }
         var velocity = new Vector2(_move.x * runSpeed, _move.y * runSpeed);
         _rb.velocity = velocity;
         // transform.Translate(Vector2.up * (move.y * runSpeed * Time.deltaTime));
@@ -78,25 +98,11 @@ public class RunnerController : MonoBehaviour
         }
         else // Player is NOT moving and we should set IDLE state depending on MovementSide
         {
-            SetIdleAnimationsToFalse();
-            switch (_movementSide)
-            {
-                case MovementSideEnum.Up:
-                    _animator.SetBool("Idle Back", true);
-                    break;
-                case MovementSideEnum.Down:
-                    _animator.SetBool("Idle Front", true);
-                    break;
-                case MovementSideEnum.Side:
-                    _animator.SetBool("Idle Side", true);
-                    break;
-                default:
-                    throw new NotImplementedException("Unsupported movement side -> " + _movementSide);
-            }
+            SetIdleAnimation();
         }
-        _animator.SetBool("Walking Side", PlayerHasHorizontalSpeed());
-        _animator.SetBool("Walking Front", PlayerIsMovingDown());
-        _animator.SetBool("Walking Back", PlayerIsMovingUp());
+        _animator.SetBool(WalkingSide, PlayerHasHorizontalSpeed());
+        _animator.SetBool(WalkingFront, PlayerIsMovingDown());
+        _animator.SetBool(WalkingBack, PlayerIsMovingUp());
         
         
     }
@@ -137,17 +143,54 @@ public class RunnerController : MonoBehaviour
 
     private void SetIdleAnimationsToFalse()
     {
-        _animator.SetBool("Idle Back", false);
-        _animator.SetBool("Idle Front", false);
-        _animator.SetBool("Idle Side", false);
+        _animator.SetBool(IdleBack, false);
+        _animator.SetBool(IdleFront, false);
+        _animator.SetBool(IdleSide, false);
     }
     
     private void Respawn()
     {
         var soulObjects = FindObjectsOfType<SoulOrb>().Length;
         if (soulObjects != 0) return;
-        Instantiate(soulOrb, transform.localPosition, Quaternion.identity);
+        StopMovementAndFreezeInput();
+        var position = new Vector3(transform.localPosition.x, transform.localPosition.y + 1f, 0f);
+        Instantiate(soulOrb, position, Quaternion.identity);
         FindObjectOfType<GameSession>().Respawn();
+    }
+
+    private void StopMovementAndFreezeInput()
+    {
+        _freezeMovementInput = true;
+        _rb.velocity = new Vector2(0, 0);
+        _animator.SetBool(WalkingSide, false);
+        _animator.SetBool(WalkingFront, false);
+        _animator.SetBool(WalkingBack, false);
+        SetIdleAnimation();
+    }
+
+    private void SetIdleAnimation()
+    {
+        SetIdleAnimationsToFalse();
+        switch (_movementSide)
+        {
+            case MovementSideEnum.Up:
+                _animator.SetBool(IdleBack, true);
+                break;
+            case MovementSideEnum.Down:
+                _animator.SetBool(IdleFront, true);
+                break;
+            case MovementSideEnum.Side:
+                _animator.SetBool(IdleSide, true);
+                break;
+            default:
+                throw new NotImplementedException("Unsupported movement side -> " + _movementSide);
+        }
+    }
+    
+    public void SoulRetrieved()
+    {
+        StopMovementAndFreezeInput();
+        FindObjectOfType<GameSession>().SoulRetrieved();
     }
     
 }

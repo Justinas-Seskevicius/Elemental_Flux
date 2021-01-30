@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9122133724813958611}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.7428417, y: 1.1918893, z: -2.8479028}
+  m_LocalPosition: {x: -14.275842, y: -7.2911105, z: -2.8479028}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9122133726292201214}
@@ -112,7 +112,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9122133725415779560}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.278846, y: 2.3919127, z: -6.5146484}
+  m_LocalPosition: {x: -17.94614, y: -6.087819, z: -6.5146484}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9122133726265712581}
@@ -128,7 +128,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -145,7 +145,7 @@ Camera:
   far clip plane: 5000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -316,7 +316,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9122133725899663364}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.7428417, y: 1.1918895, z: -2.8479028}
+  m_LocalPosition: {x: -14.275842, y: -7.29111, z: -2.8479028}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9122133725555454731}
@@ -454,11 +454,17 @@ MonoBehaviour:
       m_RotationOrder: 4
   m_CustomBlends: {fileID: 11400000, guid: cbf906944247d7b419657afc355406fd, type: 2}
   m_ParentHash:
-  - m_Hash: -1661602188
+  - m_Hash: -435711712
     m_ParentHash: 756556552
-  - m_Hash: 1286919868
+  - m_Hash: -454082315
     m_ParentHash: 756556552
-  - m_Hash: -667822070
+  - m_Hash: 1911849817
+    m_ParentHash: 756556552
+  - m_Hash: 71821873
+    m_ParentHash: 756556552
+  - m_Hash: 401690344
+    m_ParentHash: 756556552
+  - m_Hash: 1242050739
     m_ParentHash: 756556552
 --- !u!1 &9122133726265712580
 GameObject:
@@ -559,8 +565,8 @@ MonoBehaviour:
   m_ScreenX: 0.5
   m_ScreenY: 0.5
   m_CameraDistance: 10
-  m_DeadZoneWidth: 0.392
-  m_DeadZoneHeight: 0.456
+  m_DeadZoneWidth: 0.122
+  m_DeadZoneHeight: 0.14
   m_DeadZoneDepth: 0
   m_UnlimitedSoftZone: 0
   m_SoftZoneWidth: 0.8
