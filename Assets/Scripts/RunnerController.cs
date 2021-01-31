@@ -39,6 +39,7 @@ public class RunnerController : MonoBehaviour
             ctx.ReadValue<Vector2>();
         _controls.Player.Move.canceled += ctx => _move = Vector2.zero;
         _controls.Player.Respawn.performed += ctx => Respawn();
+        _controls.Player.Quit.performed += ctx => QuitGame();
     }
     
     private void OnEnable()
@@ -200,5 +201,10 @@ public class RunnerController : MonoBehaviour
         StopMovementAndFreezeInput();
         FindObjectOfType<GameSession>().SoulFound();
     }
-    
+
+    private static void QuitGame()
+    {
+        Application.Quit();
+    }
+
 }

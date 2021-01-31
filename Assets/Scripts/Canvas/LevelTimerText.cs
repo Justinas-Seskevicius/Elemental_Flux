@@ -24,7 +24,7 @@ namespace Canvas
             var secondsText = seconds > 9 ? seconds.ToString() : $"0{seconds}";
             var minutes = secondsPassed / 60;
             var minutesText = minutes > 9 ? minutes.ToString() : $"0{minutes}";
-            _levelTimerText.text = $"{minutesText}:{secondsText}";
+            _levelTimerText.text = $"Time passed: {minutesText}:{secondsText}";
         }
     }
 }

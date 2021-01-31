@@ -17,6 +17,8 @@ public class GameSession : MonoBehaviour
     // State
     [SerializeField] private int score = 0;
     [SerializeField] private float respawnInitiatedAtSeconds = 0f;
+    [SerializeField] private float soulRecoveredAtSeconds;
+    private bool _playerWon = false;
     private bool _soulLost = false;
 
     private void Awake()
@@ -84,13 +86,54 @@ public class GameSession : MonoBehaviour
 
     public void SoulFound()
     {
-        Debug.Log($"Respawn initiated after {respawnInitiatedAtSeconds} seconds");
-        Debug.Log($"Soul retrieved after {Time.timeSinceLevelLoad} seconds");
+        _playerWon = true;
+        soulRecoveredAtSeconds = Time.timeSinceLevelLoad;
+        StartCoroutine(TransitionToEndScene());
     }
 
+    private IEnumerator TransitionToEndScene()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene("Win");
+    }
+    
     public bool IsSoulLost()
     {
         return _soulLost;
     }
+
+    public float GetSoulLostTime()
+    {
+        return respawnInitiatedAtSeconds;
+    }
+
+    public float GetSoulRecoveredTime()
+    {
+        return soulRecoveredAtSeconds;
+    }
+
+    public int GetScore()
+    {
+        return score;
+    }
+
+    public bool GetPlayerWon()
+    {
+        return _playerWon;
+    }
+
+    public void TookTooLongToLoseSoul()
+    {
+        _playerWon = false;
+        soulRecoveredAtSeconds = Time.timeSinceLevelLoad;
+        StartCoroutine(TransitionToEndScene());
+    }
     
+    public void TookTooLongToRecoverSoul()
+    {
+        _playerWon = false;
+        soulRecoveredAtSeconds = Time.timeSinceLevelLoad;
+        StartCoroutine(TransitionToEndScene());
+    }
+
 }

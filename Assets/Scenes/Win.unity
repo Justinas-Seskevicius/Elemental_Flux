@@ -1015,8 +1015,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 11.299988, y: -41.880005}
-  m_SizeDelta: {x: 1241.2039, y: 14.166016}
+  m_AnchoredPosition: {x: 135.5, y: -41.880005}
+  m_SizeDelta: {x: 1489.5327, y: 14.166016}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &835584197
 MonoBehaviour:
@@ -1050,7 +1050,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Time passed until soul found: 00:00'
+  m_Text: 'Time passed until soul lost forever: 00:00'
 --- !u!222 &835584198
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1179,10 +1179,10 @@ RectTransform:
   m_Father: {fileID: 489458425}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -431}
-  m_SizeDelta: {x: -1681.7546, y: -944.6697}
+  m_AnchorMin: {x: 0.44056252, y: 0.03333334}
+  m_AnchorMax: {x: 0.56100005, y: 0.15266666}
+  m_AnchoredPosition: {x: -1.5, y: 8.5}
+  m_SizeDelta: {x: 7.2453613, y: 6.3303223}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &939294089
 MonoBehaviour:
@@ -1374,6 +1374,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 999595673}
+  - component: {fileID: 999595674}
   m_Layer: 5
   m_Name: TextBoxes
   m_TagString: Untagged
@@ -1403,6 +1404,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &999595674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999595672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8712f24cfbc594d429eafa3a0afaf6a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endText: {fileID: 47160469}
+  scoreText: {fileID: 492420250}
+  timeText: {fileID: 835584197}
 --- !u!1 &1073489393
 GameObject:
   m_ObjectHideFlags: 0
@@ -1464,7 +1480,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  m_CustomBlends: {fileID: 11400000, guid: cbf906944247d7b419657afc355406fd, type: 2}
+  m_CustomBlends: {fileID: 0}
   m_ParentHash:
   - m_Hash: -435711712
     m_ParentHash: 756556552
@@ -1725,10 +1741,10 @@ RectTransform:
   m_Father: {fileID: 489458425}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -254}
-  m_SizeDelta: {x: -1498.1791, y: -944.6697}
+  m_AnchorMin: {x: 0.39037505, y: 0.2007778}
+  m_AnchorMax: {x: 0.60977083, y: 0.32322222}
+  m_AnchoredPosition: {x: 0, y: 2.9999847}
+  m_SizeDelta: {x: -0.17907715, y: 3.3303223}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1362427540
 MonoBehaviour:
@@ -2252,7 +2268,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  m_CustomBlends: {fileID: 11400000, guid: cbf906944247d7b419657afc355406fd, type: 2}
+  m_CustomBlends: {fileID: 0}
   m_ParentHash:
   - m_Hash: 1432961145
     m_ParentHash: 756556552

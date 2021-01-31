@@ -22,6 +22,7 @@ public class SoulForm : MonoBehaviour
         _controls.Player.Move.performed += ctx => _move = ctx.ReadValue<Vector2>();
         _controls.Player.Move.canceled += ctx => _move = Vector2.zero;
         _controls.Player.Respawn.performed += ctx => LoseSoul();
+        _controls.Player.Quit.performed += ctx => QuitGame();
     }
 
     // private void Start()
@@ -67,8 +68,8 @@ public class SoulForm : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // public void DestroySoulForm()
-    // {
-    //     Destroy(gameObject);
-    // }
+    private static void QuitGame()
+    {
+        Application.Quit();
+    }
 }
