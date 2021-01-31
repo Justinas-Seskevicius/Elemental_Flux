@@ -18,6 +18,7 @@ public class RunnerController : MonoBehaviour
     private PlayerControls _controls;
     private Vector2 _move;
     private Animator _animator;
+    private FieldOfView.Scripts.FieldOfView _fieldOfView;
 
     // State
     private MovementSideEnum _movementSide = MovementSideEnum.Down;
@@ -53,6 +54,9 @@ public class RunnerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _fieldOfView = FindObjectOfType<FieldOfView.Scripts.FieldOfView>();
+        _fieldOfView.SetOrigin(transform.position);
+        _fieldOfView.SetAimDirection(Vector3.down);
     }
 
     private void FixedUpdate()
@@ -60,6 +64,7 @@ public class RunnerController : MonoBehaviour
         if (_freezeMovementInput) return;
         Move();
         FlipSprite();
+        _fieldOfView.SetOrigin(transform.position);
     }
 
     private void Move()
@@ -85,13 +90,16 @@ public class RunnerController : MonoBehaviour
             if (PlayerHasHorizontalSpeed())
             {
                 _movementSide = MovementSideEnum.Side;
+                _fieldOfView.SetAimDirection(new Vector3(Mathf.Sign(_rb.velocity.x), 0, 0));
             } else if (PlayerIsMovingUp())
             {
                 _movementSide = MovementSideEnum.Up;
+                _fieldOfView.SetAimDirection(Vector3.up);
             }
             else
             {
                 _movementSide = MovementSideEnum.Down;
+                _fieldOfView.SetAimDirection(Vector3.down);
             }
 
             SetIdleAnimationsToFalse();
@@ -155,7 +163,7 @@ public class RunnerController : MonoBehaviour
         StopMovementAndFreezeInput();
         var position = new Vector3(transform.localPosition.x, transform.localPosition.y + 1f, 0f);
         Instantiate(soulOrb, position, Quaternion.identity);
-        FindObjectOfType<GameSession>().Respawn();
+        FindObjectOfType<GameSession>().LoseSoul();
     }
 
     private void StopMovementAndFreezeInput()
@@ -190,7 +198,7 @@ public class RunnerController : MonoBehaviour
     public void SoulRetrieved()
     {
         StopMovementAndFreezeInput();
-        FindObjectOfType<GameSession>().SoulRetrieved();
+        FindObjectOfType<GameSession>().SoulFound();
     }
     
 }

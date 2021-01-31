@@ -20,11 +20,11 @@ TagManager:
   - Enemy
   - Hazzards
   - Interactables
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Mask
+  - BehindMask
+  - Black
+  - SoulForm
+  - Bounds
   - 
   - 
   - 
@@ -40,6 +40,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Bounds
+    uniqueID: 2165288403
     locked: 0
   - name: Background
     uniqueID: 372433049
@@ -61,4 +64,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 936064801
+    locked: 0
+  - name: Top
+    uniqueID: 516686143
     locked: 0

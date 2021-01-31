@@ -7,12 +7,17 @@ using UnityEngine.SceneManagement;
 
 public class GameSession : MonoBehaviour
 {
+    [SerializeField] private GameObject soulFormCameras;
+    [SerializeField] private GameObject soulForm;
+    [SerializeField] private GameObject runnerCameras;
+    [SerializeField] private GameObject runner;
+    
     [SerializeField] private float levelTransitionWait = 2f;
     
     // State
-    private List<string> _artifactFoundTime = new List<string>();
     [SerializeField] private int score = 0;
     [SerializeField] private float respawnInitiatedAtSeconds = 0f;
+    private bool _soulLost = false;
 
     private void Awake()
     {
@@ -24,31 +29,51 @@ public class GameSession : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+
+        if (_soulLost)
+        {
+            // soulForm.SetActive(false);
+            // soulFormCameras.SetActive(false);
+            // runnerCameras.SetActive(true);
+            // runner.SetActive(true);
+            // GameObject.Find("SoulForm Cameras").SetActive(false);
+            // GameObject.Find("Runner Cameras").SetActive(true);
+            // GameObject.Find("Runner").SetActive(true);
+        }
     }
 
-    public void RecordFoundArtifact(string artifactName)
-    {
-        int secondsPassed = (int) Time.timeSinceLevelLoad;
-        int seconds = secondsPassed % 60;
-        string secondsText = seconds > 9 ? seconds.ToString() : $"0{seconds}";
-        int minutes = secondsPassed / 60;
-        string minutesText = minutes > 9 ? minutes.ToString() : $"0{minutes}";
-        string artifactRecord = $"{artifactName} found at -> {minutesText}:{secondsText}";
-        _artifactFoundTime.Add(artifactRecord);
-    }
+    // public void RecordFoundArtifact(string artifactName)
+    // {
+    //     int secondsPassed = (int) Time.timeSinceLevelLoad;
+    //     int seconds = secondsPassed % 60;
+    //     string secondsText = seconds > 9 ? seconds.ToString() : $"0{seconds}";
+    //     int minutes = secondsPassed / 60;
+    //     string minutesText = minutes > 9 ? minutes.ToString() : $"0{minutes}";
+    //     string artifactRecord = $"{artifactName} found at -> {minutesText}:{secondsText}";
+    //     _artifactFoundTime.Add(artifactRecord);
+    // }
 
-    public void Respawn()
+    public void LoseSoul()
     {
         respawnInitiatedAtSeconds = Time.timeSinceLevelLoad;
-        StartCoroutine(RespawnProcedure());
+        StartCoroutine(SoulLossProcedure());
 
     }
 
-    private IEnumerator RespawnProcedure()
+    private IEnumerator SoulLossProcedure()
     {
         yield return new WaitForSecondsRealtime(levelTransitionWait);
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        _soulLost = true;
+        // soulForm.SetActive(false);
+        soulFormCameras.SetActive(false);
+        runnerCameras.SetActive(true);
+        runner.SetActive(true);
+        foreach (var collectable in FindObjectsOfType<Collectable>())
+        {
+            collectable.EnableRenderer(false);
+        }
+        // Scene scene = SceneManager.GetActiveScene();
+        // SceneManager.LoadScene(scene.name);
     }
 
     public void IncreaseScore(int points)
@@ -57,10 +82,15 @@ public class GameSession : MonoBehaviour
         FindObjectOfType<ScoreText>().UpdateScoreText(score);
     }
 
-    public void SoulRetrieved()
+    public void SoulFound()
     {
         Debug.Log($"Respawn initiated after {respawnInitiatedAtSeconds} seconds");
         Debug.Log($"Soul retrieved after {Time.timeSinceLevelLoad} seconds");
+    }
+
+    public bool IsSoulLost()
+    {
+        return _soulLost;
     }
     
 }
