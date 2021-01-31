@@ -7,6 +7,7 @@ public class SoulForm : MonoBehaviour
 {
     [SerializeField] private float flyingSpeed = 4f;
     [SerializeField] private GameObject soulOrb;
+    [SerializeField] private GameObject vortexEffect;
     
     
     private PlayerControls _controls;
@@ -58,8 +59,10 @@ public class SoulForm : MonoBehaviour
         if (soulObjects != 0) return;
         _freezeMovementInput = true;
         _rb.velocity = new Vector2(0, 0);
-        var position = new Vector3(transform.localPosition.x, transform.localPosition.y + 1f, 0f);
+        // var position = new Vector3(transform.localPosition.x, transform.localPosition.y + 1f, 0f);
+        var position = transform.localPosition;
         Instantiate(soulOrb, position, Quaternion.identity);
+        Instantiate(vortexEffect, position, Quaternion.identity);
         FindObjectOfType<GameSession>().LoseSoul();
         Destroy(gameObject);
     }

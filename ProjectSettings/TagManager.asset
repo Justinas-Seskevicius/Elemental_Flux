@@ -25,7 +25,7 @@ TagManager:
   - Black
   - SoulForm
   - Bounds
-  - 
+  - Effects
   - 
   - 
   - 
@@ -47,14 +47,8 @@ TagManager:
   - name: Background
     uniqueID: 372433049
     locked: 0
-  - name: Ladders
-    uniqueID: 1336822365
-    locked: 0
-  - name: Hazzards
-    uniqueID: 3726783913
-    locked: 0
-  - name: Enemies
-    uniqueID: 110020475
+  - name: Effects
+    uniqueID: 4099099379
     locked: 0
   - name: Interactables
     uniqueID: 1424742969

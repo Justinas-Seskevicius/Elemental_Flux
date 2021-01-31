@@ -6,14 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Tilevania/Scenes/Main Menu.unity
-    guid: 3a0ebfd5641f7b5498eaeb4f1bcba24c
+    path: Assets/Scenes/Start.unity
+    guid: 1e774a2c3cd2346d5b3ce51173b23e4f
   - enabled: 1
-    path: Assets/Tilevania/Scenes/Level 1.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Tilevania/Scenes/Level 2.unity
-    guid: 545d0456291c1dd4b8276b9cf895cf34
+    path: Assets/Scenes/Maze 1.unity
+    guid: 692f219ee2bb64ebfb1e1f8427929b75
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 27435ca33285dbc478b76551fe4a31b3,
       type: 2}
