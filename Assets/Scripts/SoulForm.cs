@@ -58,14 +58,19 @@ public class SoulForm : MonoBehaviour
     {
         var soulObjects = FindObjectsOfType<SoulOrb>().Length;
         if (soulObjects != 0) return;
-        _freezeMovementInput = true;
-        _rb.velocity = new Vector2(0, 0);
+        FreezeMovementInput();
         // var position = new Vector3(transform.localPosition.x, transform.localPosition.y + 1f, 0f);
         var position = transform.localPosition;
         Instantiate(soulOrb, position, Quaternion.identity);
         Instantiate(vortexEffect, position, Quaternion.identity);
-        FindObjectOfType<GameSession>().LoseSoul();
+        FindObjectOfType<GameSession>().PlaceSoul();
         Destroy(gameObject);
+    }
+
+    public void FreezeMovementInput()
+    {
+        _freezeMovementInput = true;
+        _rb.velocity = new Vector2(0, 0);
     }
 
     private static void QuitGame()

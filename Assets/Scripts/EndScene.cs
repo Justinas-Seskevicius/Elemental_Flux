@@ -11,28 +11,29 @@ public class EndScene : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        GameSession gameSession = FindObjectOfType<GameSession>();
-        var timePassed = FormatTime(gameSession.GetSoulRecoveredTime());
+        var gameSession = FindObjectOfType<GameSession>();
+        var timeRemaining = Mathf.FloorToInt(gameSession.SecondsRemainingTillLoss);
         if (gameSession.GetPlayerWon())
         {
             endText.text = "You found your soul!";
-            timeText.text = $"Time passed until soul found: {timePassed}";
+            timeText.text = $"Time remaining: {timeRemaining} seconds";
         }
         else
         {
             endText.text = "Your soul is lost forever in the maze...";
-            timeText.text = $"Time passed until soul lost forever: {timePassed}";
+            // timeText.text = $"Time passed until soul lost forever: {timePassed}";
+            timeText.text = "";
         }
 
         scoreText.text = $"Your score: {gameSession.GetScore()} points";
     }
 
-    private static string FormatTime(float secondsPassed)
-    {
-        var seconds = (int) secondsPassed % 60;
-        var secondsText = seconds > 9 ? seconds.ToString() : $"0{seconds}";
-        var minutes = seconds / 60;
-        var minutesText = minutes > 9 ? minutes.ToString() : $"0{minutes}";
-        return $"{minutesText}:{secondsText}";
-    }
+    // private static string FormatTime(float secondsPassed)
+    // {
+    //     // var seconds = (int) secondsPassed % 60;
+    //     // var secondsText = seconds > 9 ? seconds.ToString() : $"0{seconds}";
+    //     // var minutes = seconds / 60;
+    //     // var minutesText = minutes > 9 ? minutes.ToString() : $"0{minutes}";
+    //     // return $"{minutesText}:{secondsText}";
+    // }
 }

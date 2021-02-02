@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Boo.Lang.Runtime;
 using Canvas;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,19 +12,27 @@ public class GameSession : MonoBehaviour
     [SerializeField] private GameObject soulForm;
     [SerializeField] private GameObject runnerCameras;
     [SerializeField] private GameObject runner;
-    
+    [SerializeField] private CollectableSpawner[] collectableSpawners;
+
     [SerializeField] private float levelTransitionWait = 2f;
-    
+    [SerializeField][Range(0, 45)] private int numberOfCollectablesToSpawn;
+    [SerializeField] private float maxSecondsUntilSoulIsLost = 45f;
+
     // State
     [SerializeField] private int score = 0;
-    [SerializeField] private float respawnInitiatedAtSeconds = 0f;
-    [SerializeField] private float soulRecoveredAtSeconds;
+    // [SerializeField] private float respawnInitiatedAtSeconds = 0f;
+    // [SerializeField] private float soulRecoveredAtSeconds;
     private bool _playerWon = false;
-    private bool _soulLost = false;
+    private RunnerController _runnerController;
+    private SoulForm _soulForm;
+    private bool _soulPlaced = false;
+    private bool _stopTimer = false;
+    public float SecondsRemainingTillLoss { get; private set; }
 
     private void Awake()
     {
-        int gameSessionObjects = FindObjectsOfType<GameSession>().Length;
+        SecondsRemainingTillLoss = maxSecondsUntilSoulIsLost;
+        var gameSessionObjects = FindObjectsOfType<GameSession>().Length;
         if (gameSessionObjects > 1)
         {
             Destroy(gameObject);
@@ -31,9 +40,8 @@ public class GameSession : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-
-        if (_soulLost)
-        {
+        // if (_soulLost)
+        // {
             // soulForm.SetActive(false);
             // soulFormCameras.SetActive(false);
             // runnerCameras.SetActive(true);
@@ -41,41 +49,59 @@ public class GameSession : MonoBehaviour
             // GameObject.Find("SoulForm Cameras").SetActive(false);
             // GameObject.Find("Runner Cameras").SetActive(true);
             // GameObject.Find("Runner").SetActive(true);
+        // }
+
+        if (numberOfCollectablesToSpawn > collectableSpawners.Length)
+        {
+            throw new RuntimeException($"NumberOfCollectablesToSpawn [{numberOfCollectablesToSpawn}] is greater than spawner array length[{collectableSpawners.Length}]");
         }
     }
 
-    // public void RecordFoundArtifact(string artifactName)
-    // {
-    //     int secondsPassed = (int) Time.timeSinceLevelLoad;
-    //     int seconds = secondsPassed % 60;
-    //     string secondsText = seconds > 9 ? seconds.ToString() : $"0{seconds}";
-    //     int minutes = secondsPassed / 60;
-    //     string minutesText = minutes > 9 ? minutes.ToString() : $"0{minutes}";
-    //     string artifactRecord = $"{artifactName} found at -> {minutesText}:{secondsText}";
-    //     _artifactFoundTime.Add(artifactRecord);
-    // }
-
-    public void LoseSoul()
+    private void Start()
     {
-        respawnInitiatedAtSeconds = Time.timeSinceLevelLoad;
-        StartCoroutine(SoulLossProcedure());
-
+        _soulForm = FindObjectOfType<SoulForm>();
+        Shuffle(collectableSpawners);
+        for (var i = 0; i < numberOfCollectablesToSpawn; i++)
+        {
+            collectableSpawners[i].InstantiateCollectable();
+        }
     }
 
-    private IEnumerator SoulLossProcedure()
+    private void Update()
+    {
+        
+        if (!_stopTimer && TimeRanOut())
+        {
+            PlayerTookTooLong();
+        }
+    }
+
+    private bool TimeRanOut()
+    {
+        if (!(SecondsRemainingTillLoss > 0)) return true;
+        SecondsRemainingTillLoss -= Time.deltaTime;
+        return false;
+    }
+    
+    public void PlaceSoul()
+    {
+        _stopTimer = true;
+        _soulPlaced = true;
+        StartCoroutine(SoulPlacedProcedure());
+        _stopTimer = false;
+    }
+
+    private IEnumerator SoulPlacedProcedure()
     {
         yield return new WaitForSecondsRealtime(levelTransitionWait);
-        _soulLost = true;
-        // soulForm.SetActive(false);
         soulFormCameras.SetActive(false);
         runnerCameras.SetActive(true);
         runner.SetActive(true);
+        _runnerController = runner.GetComponent<RunnerController>();
         foreach (var collectable in FindObjectsOfType<Collectable>())
         {
             collectable.EnableRenderer(false);
         }
-        // Scene scene = SceneManager.GetActiveScene();
-        // SceneManager.LoadScene(scene.name);
     }
 
     public void IncreaseScore(int points)
@@ -87,29 +113,15 @@ public class GameSession : MonoBehaviour
     public void SoulFound()
     {
         _playerWon = true;
-        soulRecoveredAtSeconds = Time.timeSinceLevelLoad;
+        // soulRecoveredAtSeconds = Time.timeSinceLevelLoad;
         StartCoroutine(TransitionToEndScene());
     }
 
     private IEnumerator TransitionToEndScene()
     {
+        _stopTimer = true;
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene("Win");
-    }
-    
-    public bool IsSoulLost()
-    {
-        return _soulLost;
-    }
-
-    public float GetSoulLostTime()
-    {
-        return respawnInitiatedAtSeconds;
-    }
-
-    public float GetSoulRecoveredTime()
-    {
-        return soulRecoveredAtSeconds;
     }
 
     public int GetScore()
@@ -122,18 +134,28 @@ public class GameSession : MonoBehaviour
         return _playerWon;
     }
 
-    public void TookTooLongToLoseSoul()
+    private void PlayerTookTooLong()
     {
+        if (!_soulPlaced)
+        {
+            _soulForm.FreezeMovementInput();
+        }
+        else
+        {
+            _runnerController.FreezeMovementInput();
+        }
         _playerWon = false;
-        soulRecoveredAtSeconds = Time.timeSinceLevelLoad;
-        StartCoroutine(TransitionToEndScene());
-    }
-    
-    public void TookTooLongToRecoverSoul()
-    {
-        _playerWon = false;
-        soulRecoveredAtSeconds = Time.timeSinceLevelLoad;
         StartCoroutine(TransitionToEndScene());
     }
 
+    private static void Shuffle<T>(IList<T> ts) {
+        var count = ts.Count;
+        var last = count - 1;
+        for (var i = 0; i < last; ++i) {
+            var r = UnityEngine.Random.Range(i, count);
+            var tmp = ts[i];
+            ts[i] = ts[r];
+            ts[r] = tmp;
+        }
+    }
 }

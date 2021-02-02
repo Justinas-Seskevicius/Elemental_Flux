@@ -7,7 +7,7 @@ using UnityEngine;
 public class RunnerController : MonoBehaviour
 {
     [SerializeField] private float runSpeed = 4f;
-    [SerializeField] private GameObject soulOrb;
+    // [SerializeField] private GameObject soulOrb;
 
     private enum MovementSideEnum
     {
@@ -38,7 +38,7 @@ public class RunnerController : MonoBehaviour
         _controls.Player.Move.performed += ctx => _move =
             ctx.ReadValue<Vector2>();
         _controls.Player.Move.canceled += ctx => _move = Vector2.zero;
-        _controls.Player.Respawn.performed += ctx => Respawn();
+        // _controls.Player.Respawn.performed += ctx => Respawn();
         _controls.Player.Quit.performed += ctx => QuitGame();
     }
     
@@ -157,17 +157,17 @@ public class RunnerController : MonoBehaviour
         _animator.SetBool(IdleSide, false);
     }
     
-    private void Respawn()
-    {
-        var soulObjects = FindObjectsOfType<SoulOrb>().Length;
-        if (soulObjects != 0) return;
-        StopMovementAndFreezeInput();
-        var position = new Vector3(transform.localPosition.x, transform.localPosition.y + 1f, 0f);
-        Instantiate(soulOrb, position, Quaternion.identity);
-        FindObjectOfType<GameSession>().LoseSoul();
-    }
+    // private void Respawn()
+    // {
+    //     var soulObjects = FindObjectsOfType<SoulOrb>().Length;
+    //     if (soulObjects != 0) return;
+    //     StopMovementAndFreezeInput();
+    //     var position = new Vector3(transform.localPosition.x, transform.localPosition.y + 1f, 0f);
+    //     Instantiate(soulOrb, position, Quaternion.identity);
+    //     FindObjectOfType<GameSession>().PlaceSoul();
+    // }
 
-    private void StopMovementAndFreezeInput()
+    public void FreezeMovementInput()
     {
         _freezeMovementInput = true;
         _rb.velocity = new Vector2(0, 0);
@@ -198,7 +198,7 @@ public class RunnerController : MonoBehaviour
     
     public void SoulRetrieved()
     {
-        StopMovementAndFreezeInput();
+        FreezeMovementInput();
         FindObjectOfType<GameSession>().SoulFound();
     }
 

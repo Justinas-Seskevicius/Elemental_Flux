@@ -7,14 +7,16 @@ public class MenuScreen : MonoBehaviour
 {
     public void StartGame()
     {
-        StartCoroutine(LoadFirstLevel());
+        Destroy(FindObjectOfType<GameSession>());
+        SceneManager.LoadScene(1);
+        // StartCoroutine(LoadFirstLevel());
     }
 
-    private IEnumerator LoadFirstLevel()
-    {
-        yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene(1);
-    }
+    // private IEnumerator LoadFirstLevel()
+    // {
+    //     yield return new WaitForSeconds(2f);
+    //     SceneManager.LoadScene(1);
+    // }
 
     public void ExitGame()
     {
