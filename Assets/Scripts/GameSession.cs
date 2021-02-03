@@ -69,7 +69,6 @@ public class GameSession : MonoBehaviour
 
     private void Update()
     {
-        
         if (!_stopTimer && TimeRanOut())
         {
             PlayerTookTooLong();
@@ -85,14 +84,14 @@ public class GameSession : MonoBehaviour
     
     public void PlaceSoul()
     {
-        _stopTimer = true;
+        // _stopTimer = true;
         _soulPlaced = true;
         StartCoroutine(SoulPlacedProcedure());
-        _stopTimer = false;
     }
 
     private IEnumerator SoulPlacedProcedure()
     {
+        _stopTimer = true;
         yield return new WaitForSecondsRealtime(levelTransitionWait);
         soulFormCameras.SetActive(false);
         runnerCameras.SetActive(true);
@@ -102,6 +101,7 @@ public class GameSession : MonoBehaviour
         {
             collectable.EnableRenderer(false);
         }
+        _stopTimer = false;
     }
 
     public void IncreaseScore(int points)
