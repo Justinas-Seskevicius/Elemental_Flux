@@ -17,6 +17,7 @@ public class GameSession : MonoBehaviour
     [SerializeField] private float levelTransitionWait = 2f;
     [SerializeField][Range(0, 45)] private int numberOfCollectablesToSpawn;
     [SerializeField] private float maxSecondsUntilSoulIsLost = 45f;
+    [SerializeField][Range(0f, 1f)] private float timeMultiplier = 0.15f;
 
     // State
     [SerializeField] private int score = 0;
@@ -121,12 +122,22 @@ public class GameSession : MonoBehaviour
     {
         _stopTimer = true;
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene("Win");
+        SceneManager.LoadScene("Scenes/End");
     }
 
     public int GetScore()
     {
         return score;
+    }
+
+    public int GetScoreForRemainingTime()
+    {
+        return Mathf.FloorToInt(1 + SecondsRemainingTillLoss * timeMultiplier);
+    }
+    
+    public int CalculateScore()
+    {
+        return score * GetScoreForRemainingTime();
     }
 
     public bool GetPlayerWon()

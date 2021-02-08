@@ -40611,8 +40611,9 @@ MonoBehaviour:
   - {fileID: 2045019541}
   - {fileID: 1969503529}
   levelTransitionWait: 2
-  numberOfCollectablesToSpawn: 25
+  numberOfCollectablesToSpawn: 27
   maxSecondsUntilSoulIsLost: 45
+  timeMultiplier: 0.15
   score: 0
 --- !u!4 &2004014065
 Transform:
@@ -42678,12 +42679,12 @@ PrefabInstance:
     - target: {fileID: 788538501116498110, guid: 2942c310ce97b45ce935bc2d1899c305,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.31
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 788538501116498110, guid: 2942c310ce97b45ce935bc2d1899c305,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.72
+      value: -6.58
       objectReference: {fileID: 0}
     - target: {fileID: 788538501116498110, guid: 2942c310ce97b45ce935bc2d1899c305,
         type: 3}
