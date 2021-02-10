@@ -7,12 +7,14 @@ public class EndScene : MonoBehaviour
 {
     [SerializeField] private Text endText;
     [SerializeField] private Text scoreText;
+    [SerializeField] private Text highScoreText;
     [SerializeField] private Text scoreFromItems;
     [SerializeField] private Text scoreFromTime;
     [SerializeField] private Text timeText;
     // Start is called before the first frame update
     private void Start()
     {
+        var highScore = PlayerPrefs.GetInt("HighScore", 0);
         var gameSession = FindObjectOfType<GameSession>();
         var timeRemaining = Mathf.FloorToInt(gameSession.SecondsRemainingTillLoss);
         if (gameSession.GetPlayerWon())
@@ -29,7 +31,17 @@ public class EndScene : MonoBehaviour
             timeText.text = "";
         }
 
-        scoreText.text = $"Final score: {gameSession.CalculateScore()} points";
+        var finalScore = gameSession.CalculateScore();
+        scoreText.text = $"Final score: {finalScore} points";
+        if (finalScore > highScore)
+        {
+            PlayerPrefs.SetInt("HighScore", finalScore);
+            highScoreText.text = "NEW HIGH SCORE!";
+        }
+        else
+        {
+            highScoreText.text = $"High score: {highScore.ToString()}";
+        }
     }
 
     // private static string FormatTime(float secondsPassed)
